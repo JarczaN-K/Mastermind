@@ -9,7 +9,7 @@ public class Main {
 
         Player player = new Player();
         Machine machine = new Machine();
-        machine.examine(machine.game());
+        machine.examine();
 
 
     }

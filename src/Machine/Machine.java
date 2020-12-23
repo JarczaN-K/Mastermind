@@ -3,12 +3,14 @@ package Machine;
 import Player.Player;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Machine {
     private String[] cipher = new String[]{"W", "G"};
     String[] colours = new String[]{"W", "G", "O", "R", "B", "V"};
-    private String[] answers = new String[cipher.length];
+    //private String[] answers = new String[cipher.length];
+    private String[] answers = new String[]{"R", "O"};
 
     // TODO: 22.12.2020
 
@@ -27,30 +29,50 @@ public class Machine {
         for (int i = 0; i <= cipher.length - 1; i++) {
             Scanner scan = new Scanner(System.in);
             String answer = scan.nextLine();
-            answers[i] = answer;
+            answers[i] = answer.toUpperCase(Locale.ROOT);
         }
         return answers;
     }
 
-    public void examine(String[] playerAnswer) {
-        int place = 0;
-        if (playerAnswer[place].equals(cipher[place])) {
-            System.out.print("o ");
-        } else {
-            System.out.print("x ");
+    private boolean check(String[] playerAnswer, int playerSocket, int cipherSocket) {
+        boolean result = false;
+        //game();
+        if (playerAnswer[playerSocket].equals(cipher[cipherSocket])) {
+            result = true;
+        } else if (!playerAnswer[playerSocket].equals(cipher[cipherSocket])){
+            result = false;
+        }
+        return result;
+    }
+
+    public void examine() {
+        int socket = 0;
+        int checkSocket = 0;
+        for (int i = 1; i <= getCipherLength(); i++) {
+            if (check(answers, socket, socket)) {
+                System.out.print("o ");
+                socket++;
+            } else {
+                for (int j = 0; j <= getCipherLength() - 1; j++) {
+                    if (!check(answers, socket, checkSocket)) {
+                        checkSocket++;
+                        if (checkSocket > j){
+                            break;
+                        }
+                    }
+                }
+                if (check(answers, socket, checkSocket)){
+                    checkSocket = 0;
+                    System.out.print("x ");
+                } else {
+                    checkSocket = 0;
+                    System.out.print("_ ");
+                }
+            }
         }
     }
 
-    public void start() {
-        System.out.println(Arrays.toString(cipher));
-    }
-
-
-    public String[] createCipher() {
-        return cipher;
-    }
-
     public int getCipherLength() {
-        return cipher.length - 1;
+        return cipher.length;
     }
 }
