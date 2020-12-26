@@ -7,9 +7,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Player player = new Player();
         Machine machine = new Machine();
-        machine.examine();
+        machine.chances();
 
 
     }
