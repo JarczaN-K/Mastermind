@@ -1,34 +1,72 @@
 package Machine;
 
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public class Machine {
-    private String[] cipher = new String[]{"W", "G", "O", "R"};
-    String[] colours = new String[]{"W", "G", "O", "R", "B", "V"};
-    private String[] answers = new String[cipher.length];
-    //private String[] answers = new String[]{"W", "R", "O", "V"};
+    private final String[] cipher = new String[4];
+    private final String[] answers = new String[cipher.length];
 
-    // TODO: 22.12.2020
+    private void randomize(String[] randomizer) {
+        Random r = new Random();
+        Set<Integer> set = new HashSet<>(4);
+        int i = 0;
+        do {
+            set.add(r.nextInt(8));
+        } while (set.size() != 4);
 
-    /**
-     * create cipher with randomized colours
-     */
-    private int randomize(String[] randomizer) {
-        int length = randomizer.length;
-        return 0;
+        for (Integer socket : set) {
+            switch (socket) {
+                case 0 -> {
+                    randomizer[i] = "W";
+                    ++i;
+                }
+                case 1 -> {
+                    randomizer[i] = "G";
+                    ++i;
+                }
+                case 2 -> {
+                    randomizer[i] = "O";
+                    ++i;
+                }
+                case 3 -> {
+                    randomizer[i] = "R";
+                    ++i;
+                }
+                case 4 -> {
+                    randomizer[i] = "B";
+                    ++i;
+                }
+                case 5 -> {
+                    randomizer[i] = "V";
+                    ++i;
+                }
+                case 6 -> {
+                    randomizer[i] = "P";
+                    ++i;
+                }
+                case 7 -> {
+                    randomizer[i] = "Y";
+                    ++i;
+                }
+            }
+        }
+
     }
 
     public void chances() {
-        int maxChance = 5;
+        int maxChance = 10;
+        randomize(cipher);
         for (int i = 0; i <= maxChance; i++) {
             if (i != maxChance) {
                 examine();
-                if (correctAnswer()){
+                if (correctAnswer()) {
                     break;
                 }
                 System.out.println();
+            } else {
+                System.out.println("END OF CHANCES");
+                System.out.println("CORRECT ANSWER: " + Arrays.toString(cipher));
+                break;
             }
         }
     }
@@ -49,9 +87,10 @@ public class Machine {
         return result;
     }
 
-    private boolean correctAnswer(){
+    private boolean correctAnswer() {
         boolean result = false;
-        if (answers[0].equals(cipher[0]) && answers[1].equals(cipher[1]) && answers[2].equals(cipher[2]) && answers[3].equals(cipher[3])){
+        if (answers[0].equals(cipher[0]) && answers[1].equals(cipher[1]) && answers[2].equals(cipher[2]) && answers[3].equals(cipher[3])) {
+            System.out.println();
             System.out.print("CORRECT! ");
             result = true;
         }
@@ -79,7 +118,4 @@ public class Machine {
         System.out.print(Arrays.toString(answers));
     }
 
-    public int getCipherLength() {
-        return cipher.length;
-    }
 }
