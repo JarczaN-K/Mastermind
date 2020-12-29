@@ -5,6 +5,12 @@ import java.util.*;
 public class Machine {
     private final String[] cipher = new String[4];
     private final String[] answers = new String[cipher.length];
+    private List<String> hint = new ArrayList<>() {};
+
+    private List<String> sort( List<String> list){
+        Collections.sort(list);
+        return list;
+    }
 
     private void randomize(String[] randomizer) {
         Random r = new Random();
@@ -98,23 +104,26 @@ public class Machine {
     }
 
     private void examine() {
+        hint.clear();
         playerCipher();
         for (int i = 0; i <= cipher.length - 1; i++) {
             if (check(answers, i, i)) {
-                System.out.print("o ");
+                hint.add("o");
             } else {
                 for (int j = 0; j <= cipher.length - 1; j++) {
                     if (check(answers, i, j)) {
-                        System.out.print("x ");
+                        hint.add("x");
                         break;
                     } else if (!check(answers, i, j) && j == (cipher.length - 1)) {
-                        System.out.print("_ ");
+                        hint.add("_");
                         break;
                     }
                 }
             }
 
         }
+
+        System.out.print(sort(hint) + " ");
         System.out.print(Arrays.toString(answers));
     }
 
